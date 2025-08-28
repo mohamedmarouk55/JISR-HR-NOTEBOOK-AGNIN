@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محضر اجتماع - برنامج جسر</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .meeting-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background-color: var(--light);
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-card h3 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .attendees {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .attendee {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-right: 4px solid var(--secondary);
+        }
+        
+        .discussion {
+            padding: 30px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .discussion-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-right: 4px solid var(--warning);
+        }
+        
+        .recommendations {
+            padding: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e8f4fc;
+        }
+        
+        .status-active {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .status-inactive {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        .responsible {
+            background-color: #e8f4fc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 3px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .not-applicable {
+            font-style: italic;
+            color: #777;
+        }
+        
+        .icon {
+            margin-left: 5px;
+            font-size: 1.2em;
+        }
+        
+        .sub-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sub-list li {
+            margin-bottom: 5px;
+        }
+        
+        /* إضافة نمط جديد للزر ليعمل على جميع الأجهزة */
+        .action-button-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background-color: var(--secondary);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .action-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .action-button:active {
+            transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--dark);
+            color: white;
+        }
+        
+        /* media query لضمان التجاوب على الشاشات الأصغر */
+        @media (max-width: 768px) {
+            .meeting-info {
+                grid-template-columns: 1fr;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+
+            .action-button {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>محضر اجتماع</h1>
+            <p>دراسة نسبة الاستفادة من برنامج جسر مع إمكانية تحسين كفاءة الاستخدام</p>
+        </header>
+        
+        <section class="meeting-info">
+            <div class="info-card">
+                <h3>الحضور</h3>
+                <div class="attendees">
+                    <div class="attendee">ا. محمد الراشد - الرئيس التنفيذي</div>
+                    <div class="attendee">ا. اماني الجهني - مشرفة ادارة المشاريع</div>
+                    <div class="attendee">ا. عبد الله الراشد - اخصائي ادارة المشاريع</div>
+                    <div class="attendee">ا. محمد مبروك - محاسب تكاليف</div>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <h3>تفاصيل الاجتماع</h3>
+                <p><strong>التاريخ:</strong> الثلاثاء الموافق 12-8-2025</p>
+                <p><strong>الموضوع:</strong> دراسة نسبة الاستفادة من برنامج جسر مع إمكانية تحسين كفاءة الاستخدام</p>
+            </div>
+        </section>
+        
+        <section class="discussion">
+            <h2>ما تمت مناقشته</h2>
+            <div class="discussion-content">
+                <p>• تم مناقشة جميع النقاط المتعلقة باليات الاستفادة من برنامج جسر.</p>
+            </div>
+        </section>
+        
+        <section class="recommendations">
+            <h2>التوصيات والجهات المسؤولة عن التنفيذ</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="5%">م</th>
+                        <th width="60%">التوصيات</th>
+                        <th width="35%">الجهة المسؤولة عن التنفيذ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <span class="icon">🔔</span> <strong>الاشعارات:</strong><br>
+                            <ul class="sub-list">
+                                <li>✅ مفعلة: إشعارات المنضمين حديثاً - تنبيهات الحضور - بريد المشرفين - بريد الموظفين - إشعارات البريد الإلكتروني للمهام</li>
+                                <li>❌ غير مفعلة: إشعارات الذكرى السنوية - إشعارات عيد الميلاد</li>
+                            </ul>
+                        </td>
+                        <td><span class="not-applicable">لــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <span class="icon">📂</span> <strong>إضافة مستندات المنشأة:</strong><br>
+                            <ul class="sub-list">
+                                <li>إضافة جميع مستندات الشركة</li>
+                                <li>يتم فتح صلاحيات العرض والإضافة حسب توجيهات الرئيس التنفيذي.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="responsible">• مريم الدوح</div>
+                            <div class="responsible">• محمد مبروك</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            <span class="icon">👥</span> <strong>المجموعات:</strong><br>
+                            غير مفعّل في الوقت الحالي لعدم الحاجة إليه خلال الفترة الحالية.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>
+                            <span class="icon">⚖️</span> <strong>المخالفات والجزاءات:</strong><br>
+                            مفعّلة ومعمول بها.
+                        </td>
+                        <td>
+                            <div class="responsible">• ساره الفهدي</div>
+                            <div class="responsible">• امجاد الحربي</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>
+                            <span class="icon">📑</span> <strong>أنواع عقود التوظيف:</strong><br>
+                            تُفعل حسب الحاجة، ويتم العمل بها في حالة استئجار عمالة خارجية.
+                        </td>
+                        <td>
+                            <div class="responsible">• ساره الفهدي</div>
+                            <div class="responsible">• امجاد الحربي</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>
+                            <span class="icon">📑</span> <strong>مستندات الموظف:</strong><br>
+                            يُوجَّه المسؤولون عن إدخال بيانات الموظفين الجدد إلى ضرورة رفع جميع الأوراق والمستندات الخاصة بالموظف (مثل: بطاقة الهوية، المؤهلات، الشهادات، العقود، وغيرها) على النظام لضمان اكتمال ملف الموظف.
+                        </td>
+                        <td>
+                            <div class="responsible">• ساره الفهدي</div>
+                            <div class="responsible">• امجاد الحربي</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>
+                            <span class="icon">🛡️</span> <strong>تفاصيل التأمينات الاجتماعية:</strong><br>
+                            يتم تحديث ملف التأمينات الاجتماعية بشكل دوري من قبل مشرف الموارد البشرية، وذلك بالمتابعة المباشرة مع أخصائي الرواتب.
+                        </td>
+                        <td>
+                            <div class="responsible">• يزيد العوده</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>
+                            <span class="icon">🏥</span> <strong>إضافة معلومات التأمين الطبي:</strong><br>
+                            <ul class="sub-list">
+                                <li>يتم فتح صلاحية إضافة وحذف بيانات التأمين الطبي على النظام للموظف المسؤول فقط.</li>
+                                <li>تقوم إدارة المشاريع بإعداد دراسة للوضع الحالي وتقديم مقترح تطويري إلى الرئيس التنفيذي لاعتماده.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="responsible">• امجاد الحربي</div>
+							<div                                   </div>
+                            <div class="responsible">• عبد الله الراشد</div>
+                            <div class="responsible">• اماني الجهني</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>
+                            <span class="icon">💰</span> <strong>تكاليف الموظف على الشركة:</strong><br>
+                            يتم فتح صلاحيات إضافة التكاليف المتعلقة بكل موظف على النظام (مثل: التأشيرات – تذاكر الطيران).
+                        </td>
+                        <td>
+                            <div class="responsible">• مريم الدوح</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>
+                            <span class="icon">🔄</span> <strong>مسار العمل التلقائي:</strong><br>
+                            يتم إبلاغ موظفي الموارد البشرية بالآليات الخاصة بتنفيذ أي مقترح حسب احتياجات العمل لضمان سير العمل بشكل منظم وفعال.
+                        </td>
+                        <td>
+                            <div class="responsible">• محمد مبروك</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>
+                            <span class="icon">📋</span> <strong>الاستبيانات:</strong><br>
+                            غير مفعّلة في الفترة الحالية لعدم الحاجة لها، مع التأكيد على ضرورة الاهتمام بالعمل عليها مستقبلاً عند الحاجة.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>
+                            <span class="icon">📢</span> <strong>الإعلانات:</strong><br>
+                            مفعّلة على النظام ويتم إدارتها ونشرها من خلال الـ ADMIN.
+                        </td>
+                        <td>
+                            <div class="responsible">• يزيد العوده</div>
+                            <div class="responsible">• محمد مبروك</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>
+                            <span class="icon">✈️</span> <strong>حجوزات رحلات الطيران من خلال برنامج المسافر:</strong><br>
+                            عدم التفعيل لعدم الحاجة له بالفترة الحالية.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>
+                            <span class="icon">✈️</span> <strong>سياسات حجز تذاكر طيران الإجازة السنوية:</strong><br>
+                            مفعله على النظام.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td>
+                            <span class="icon">🏷️</span> <strong>المستوى الوظيفي:</strong><br>
+                            يتم العمل علية بعد اعداد سلم الرواتب.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td>
+                            <span class="icon">🗓️</span> <strong>اعدادات الإجازات - اجازات العطلات الرسمية - الدوامات وفترات العمل - سياسات احتساب العمل الإضافي</strong>
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td>
+                            <span class="icon">📝</span> <strong>سياسة الاستئذان الشخصي:</strong><br>
+                            عدم التفعيل لعدم الحاجة له بالفترة الحالية.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>
+                            <span class="icon">📝</span> <strong>سياسة الاستئذان العمل:</strong><br>
+                            مفعل من خلال سلسلة الموافقات.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td>
+                            <span class="icon">📍</span> <strong>تسجيل الحضور من خلال الموقع الجغرافي:</strong><br>
+                            يُفعل حسب الحاجة بعد تقديم طلب من مدير الإدارة المعنية.
+                        </td>
+                        <td>
+                            <div class="responsible">• محمد مبروك</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td>
+                            <span class="icon">⭐</span> <strong>تقييم الموظف:</strong><br>
+                            بعد اعتماد النماذج الخاصة بالتقييم يتم رفعها على النظام وربطها بالموظف.
+                        </td>
+                        <td>
+                            <div class="responsible">• يزيد العوده</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>23</td>
+                        <td>
+                            <span class="icon">💼</span> <strong>محفظة جسر:</strong><br>
+                            عدم التفعيل لعدم الحاجة له بالفترة الحالية.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>24</td>
+                        <td>
+                            <span class="icon">💵</span> <strong>إعداد مسير الرواتب:</strong><br>
+                            مفعل.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>25</td>
+                        <td>
+                            <span class="icon">🛫</span> <strong>اعدادات رحلات العمل:</strong><br>
+                            عدم التفعيل لعدم الحاجة له بالفترة الحالية.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>26</td>
+                        <td>
+                            <span class="icon">🎫</span> <strong>اعدادات التذاكر:</strong><br>
+                            تقديم مقترح من إدارة المشاريع بالمبالغ المعتمدة صرفها لكل موظف حسب الجنسية ورفع المقترح الي الرئيس التنفيذي للمناقشة.
+                        </td>
+                        <td>
+                            <div class="responsible">• عبد الله الراشد</div>
+                            <div class="responsible">• اماني الجهني</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>27</td>
+                        <td>
+                            <span class="icon">💼</span> <strong>المخالصات النهائية - مخالصات الاجازات:</strong><br>
+                            تبين من خلال المراجعة وجود بعض المخالصات على برنامج جسر لم تحصل على الاعتماد النهائي من قبل الرئيس التنفيذي.
+                            <br><br><strong>المقترحات المتاحة:</strong>
+                            <ul class="sub-list">
+                                <li><strong>الوضع الحالي:</strong> الاعتماد النهائي يكون للرئيس التنفيذي، سواء كان اعتمادًا ورقيًا أو اعتمادًا بالنظام.</li>
+                                <li><strong>المقترح الأول:</strong> يكتفي الرئيس التنفيذي بالاعتماد الورقي ويكون الاعتماد النهائي على النظام لرئيس الحسابات.</li>
+                                <li><strong>المقترح الثاني:</strong> يقوم الرئيس التنفيذي بالاعتماد مباشرة على النظام، ومن خلال هذا الإجراء يتم اعتماد التحويل من الجهة المختصة تلقائيًا.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="responsible">• الرئيس التنفيذي</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td>
+                            <span class="icon">🔑</span> <strong>الصلاحيات:</strong><br>
+                            مفعلة على النظام، ويكون مشرف الموارد البشرية هو المسؤول عن تحديثها بشكل مستمر.
+                        </td>
+                        <td>
+                            <div class="responsible">• يزيد العوده</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>29</td>
+                        <td>
+                            <span class="icon">💳</span> <strong>مهمة دفع مستحقات الخروج والعودة:</strong><br>
+                            يتم فتح صلاحيات لإتمام المهام لأخصائية الموارد البشرية.
+                        </td>
+                        <td>
+                            <div class="responsible">• مريم الدوح</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>30</td>
+                        <td>
+                            <span class="icon">✈️</span> <strong>طلبات حجز تذاكر الطيران:</strong><br>
+                            لا يتم حجز تذاكر الطيران الا من خلال طلب مقدم على النظام.
+                        </td>
+                        <td>
+                            <div class="responsible">• مريم الدوح</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>31</td>
+                        <td>
+                            <span class="icon">📝</span> <strong>طلب الاستقالة:</strong><br>
+                            <ul class="sub-list">
+                                <li>تقوم إدارة المشاريع بإعداد دراسة حول أسباب توقف عمل طلبات الاستقالة على النظام.</li>
+                                <li>تُقدَّم نتائج الدراسة مع المقترحات اللازمة إلى الرئيس التنفيذي بهدف إعادة تشغيل الطلب على النظام.</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="responsible">• عبد الله الراشد</div>
+                            <div class="responsible">• اماني محمد</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>32</td>
+                        <td>
+                            <span class="icon">🕒</span> <strong>طلب تصحيح بصمة:</strong><br>
+                            عدم التفعيل لعدم الحاجة له بالفترة الحالية.
+                        </td>
+                        <td><span class="not-applicable">ــــــــــ</span></td>
+                    </tr>
+                    <tr>
+                        <td>33</td>
+                        <td>
+                            <span class="icon">📝</span> <strong>طلب تغيير معلومات الموظف:</strong><br>
+                            <ul class="sub-list">
+                                <li>يتم فتح صلاحيات لأخصائي الموارد البشرية واعداد سلسلة موافقات.</li>
+                                <li><strong>سلسلة الموافقات:</strong> الموظف – المدير المباشر – اخصائي الموارد البشرية – مشرف الموارد البشرية</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="responsible">• ساره الفهدي</div>
+                            <div class="responsible">• امجاد الحربي</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>34</td>
+                        <td>
+                            <span class="icon">👥</span> <strong>طلب توظيف:</strong><br>
+                            مفعل على النظام ويحتاج توجيه الي عدم اجراء أي عمليات توظيف الا من خلال اجراء طلب توظيف على النظام واعتماد الطلب من خلال سلسلة الموافقات المعتمدة.
+                        </td>
+                        <td>
+                            <div class="responsible">• الرئيس التنفيذي</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>35</td>
+                        <td>
+                            <span class="icon">💼</span> <strong>العُهد - إخلاء الطرف:</strong><br>
+                            <ul class="sub-list">
+                                <li><strong>الوضع الحالي:</strong>
+                                    <ul>
+                                        <li>إخلاء الطرف: يتم عبر نموذج ورقي.</li>
+                                        <li>الاستلام وإخلاء العُهد: يتم عبر نموذج ورقي.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>المقترح الجديد:</strong>
+                                    <ul>
+                                        <li><strong>أولاً:</strong> إلغاء التعامل بالنماذج الورقية.</li>
+                                        <li><strong>ثانياً:</strong> تفعيل آليات التعامل مع إخلاء الطرف والعُهد على النظام.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>إدارة العُهد على النظام:</strong>
+                                    <ul>
+                                        <li>تفعيل عمليات الاستلام والإخلاء للعُهد على النظام.</li>
+                                        <li><strong>آليات العمل:</strong> يتم الاستلام أو الإخلاء من خلال طلب على النظام فقط. لا يتم إتمام المخالصات إلا بعد إخلاء العُهد. في حالة عدم وجود أي عهدة، يتم مباشرة عمل المخالصات المالية.</li>
+                                        <li><strong>مسؤولية الموظف والمدير:</strong> وضع آلية توضح المسؤولية على مسؤول العُهد والمدير المباشر في حالة وجود عهدة فعلية مع موظف وغير مدرجة على النظام.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>إخلاء الطرف:</strong>
+                                    <ul class="sub-list">
+                                        <li><strong>المقترح الأول:</strong> إلغاء إخلاء الطرف والاكتفاء بإخلاء العُهد فقط.</li>
+                                        <li><strong>المقترح الثاني:</strong> تفعيل الوضع الحالي ولكن من خلال النظام.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- إضافة زر جديد للطباعة ليعمل على جميع الأجهزة -->
+        <div class="action-button-container">
+            <button class="action-button" onclick="window.print()">
+                طباعة محضر الاجتماع
+            </button>
+        </div>
+
+        <footer>
+            <p> Design : Mohamed Mabrouk Attia💻</p>
+        </footer>
+    </div>
+</body>
+</html>
